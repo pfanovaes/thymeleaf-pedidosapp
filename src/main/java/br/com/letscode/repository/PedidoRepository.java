@@ -1,5 +1,7 @@
 package br.com.letscode.repository;
 import br.com.letscode.entity.PedidoEntidade;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -7,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Repository
 public class PedidoRepository {
 
     private static List<PedidoEntidade> pedidos = new ArrayList<>();

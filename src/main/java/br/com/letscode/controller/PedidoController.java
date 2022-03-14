@@ -4,6 +4,7 @@ import br.com.letscode.dto.CadastrarPedidoDTO;
 import br.com.letscode.dto.RetornoPedidoDTO;
 import br.com.letscode.entity.PedidoEntidade;
 import br.com.letscode.repository.PedidoRepository;
+import br.com.letscode.service.EmailService;
 import br.com.letscode.service.PedidoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,10 +19,17 @@ import java.util.List;
 @Controller
 @RequestMapping("/pedidos")
 public class PedidoController {
+
+    private PedidoService service;
+
+    private PedidoController(PedidoService service) {
+
+        this.service = service;
+    }
+
     @GetMapping("/listar")
     public String listar(Model model) {
 
-        PedidoService service = new PedidoService();
         List<RetornoPedidoDTO> todosOsPedidosDTO = service.listarTodosOsPedidos();
 
         model.addAttribute("pedidos", todosOsPedidosDTO);
@@ -37,7 +45,6 @@ public class PedidoController {
     @PostMapping("/cadastrar-pedido")
         public RedirectView cadastrarPedido(CadastrarPedidoDTO cadastrarPedidoDTO) {
 
-            PedidoService service = new PedidoService();
             service.cadastrarPedido(cadastrarPedidoDTO);
 
             final RedirectView view = new RedirectView("/pedidos/listar", true);

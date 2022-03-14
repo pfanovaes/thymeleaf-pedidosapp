@@ -1,6 +1,10 @@
 package br.com.letscode.service;
 
-public class EnviarEmailService {
+public class EmailService {
+
+    public EmailService(String smtp, String imap) {
+
+    }
 
     public void enviar(String destino) {
         System.out.println("#######");

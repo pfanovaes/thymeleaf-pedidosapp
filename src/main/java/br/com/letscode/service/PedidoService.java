@@ -4,22 +4,29 @@ import br.com.letscode.dto.CadastrarPedidoDTO;
 import br.com.letscode.dto.RetornoPedidoDTO;
 import br.com.letscode.entity.PedidoEntidade;
 import br.com.letscode.repository.PedidoRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
+@Service
+@RequiredArgsConstructor
 public class PedidoService {
 
-    private PedidoRepository repository;
+
+    private final PedidoRepository repository;
+    private final EmailService emailService;
+
 
     public void cadastrarPedido(CadastrarPedidoDTO cadastrarPedidoDTO) {
-        repository = new PedidoRepository();
 
-        EnviarEmailService emailService = new EnviarEmailService();
+        EmailService emailService = new EmailService("123", "321");
         emailService.enviar(cadastrarPedidoDTO.getEmail());
 
         PedidoEntidade entidade = new PedidoEntidade();
@@ -35,7 +42,7 @@ public class PedidoService {
     }
 
     public List<RetornoPedidoDTO> listarTodosOsPedidos() {
-        repository = new PedidoRepository();
+
         List<PedidoEntidade> entidades = repository.getAll();
         List<RetornoPedidoDTO> listaRetorno = entidades.stream()
                 .map(entidade -> fromEntidadeToRetornoPedidoDTO(entidade))
